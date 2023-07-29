@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Tree Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #skillTreeContainer {
+            display: flex;
+        }
+
+        #skillEditor {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        #skillTree {
+            flex: 2;
+            width: 800px;
+            height: 600px;
+            border: 1px solid #ccc;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            margin-top: 5px;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        .form-group .btn {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .form-group .btn.cancel {
+            background-color: #ccc;
+            margin-right: 5px;
+        }
+
+        #skillList {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #skillList li {
+            cursor: pointer;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+
+</head>
+
+<body>
+    <h1>Skill Tree Visualization</h1>
+
+    <div id="skillTreeContainer">
+        <div id="skillEditor">
+            <h2>Edit Skill</h2>
+            <div id="skillForm">
+                <!-- Dynamically insert the skill form here -->
+            </div>
+        </div>
+
+        <div id="skillTree"></div>
+    </div>
+
+
+    <label for="skillIdPrefix">Skill ID Prefix:</label>
+    <input id="skillIdPrefix" value="SKILL_" onblur="updateSkillIdPrefix()" />
+    <div id="skillList">
+        <!-- Dynamically display skill list here -->
+    </div>
+
+    <div>
+        <button id="addSkillBtn" onclick="addNewSkill()">+ Add Skill</button>
+        <button onclick="exportSkillsAsYAML()">Export Skills as YAML</button>
+        <input type="file" id="importFileInput" accept=".yaml" style="display: none" onchange="handleImportFile(event)">
+        <button onclick="document.getElementById('importFileInput').click()">Import Skills from YAML</button>
+        <button onclick="exportDiagramAsPNG()">Save Diagram as PNG</button>
+    </div>
+    <script>
+        let dependencyFieldCounter = 0;
+        let skillIdPrefix = "SKILL_"
+
+        let skillsData = {
+            nodes: [
+                { id: 1, label: "Skill 1\n(Level 1)", level: 1 },
+            ],
+            edges: [],
+        };
+
+        let network;
+
+        // Function to add a new skill to the data
+        function addNewSkill() {
+            const newNodeId = `${skillIdPrefix}_${skillsData.nodes.length + 1}`;
+            skillsData.nodes.push({
+                id: newNodeId,
+                label: "New Skill " + newNodeId,
+                level: 1
+            });
+            refreshDiagram();
+            populateSkillList(); // Add this line to update the skill list
+        }
+
+        // Function to populate the skill list
+        function populateSkillList() {
+            const skillList = document.getElementById("skillList");
+            skillList.innerHTML = "";
+
+            for (const node of skillsData.nodes) {
+                const skillName = getNodeName(node.label);
+                const listItem = document.createElement("li");
+                listItem.textContent = skillName;
+                listItem.onclick = function () {
+                    openForm(node.id);
+                };
+                skillList.appendChild(listItem);
+            }
+        }
+
+        // Function to open the edit form when a skill node is selected
+        function openForm(nodeId) {
+            const node = skillsData.nodes.find((node) => node.id === nodeId);
+            const skillForm = `
+        <form id="editForm">
+          <div class="form-group">
+            <label for="skillName">Skill Name:</label>
+            <input type="text" id="skillName" value="${getNodeName(node.label)}" required>
+          </div>
+          <div class="form-group">
+            <label for="skillLevel">Skill Level:</label>
+            <select id="skillLevel">
+                <option value="1" ${node.skillLevel === 1 ? "selected" : ""}>1</option>
+                <option value="5" ${node.skillLevel === 5 ? "selected" : ""}>5</option>
+                <option value="10" ${node.skillLevel === 10 ? "selected" : ""}>10</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="dependency">Dependencies:</label>
+            <div id="dependencyLevels">
+              <!-- Dynamically add dependency levels -->
+            </div>
+            <button type="button" onclick="addDependencyField()">Add Dependency</button>
+          </div>
+          <input type="checkbox" id="allDependencies" checked>
+          <label for="allDependencies">Requires All Dependencies</label>
+          <button class="btn cancel" onclick="closeForm()">Cancel</button>
+          <button class="btn" type="submit">Save Changes</button>
+        </form>
+      `;
+
+            document.getElementById("skillForm").innerHTML = skillForm;
+
+            const dependencyLevelsDiv = document.getElementById("dependencyLevels");
+            dependencyLevelsDiv.innerHTML = "";
+
+            const edges = skillsData.edges.filter((edge) => edge.to === nodeId);
+            if (edges.length > 0) {
+                for (const edge of edges) {
+                    const fromNode = skillsData.nodes.find((node) => node.id === edge.from);
+                    dependencyLevelsDiv.innerHTML += `
+            <div class="form-group">
+              <label for="dependencyName-${edge.from}-${edge.to}">Dependency Name:</label>
+              <select id="dependencyName-${edge.from}-${edge.to}">
+                <!-- Dynamically add skill options -->
+                ${getSkillOptions(edge.to, fromNode.label)}
+              </select>
+              <label for="dependencyLevel-${edge.from}-${edge.to}">Dependency Level:</label>
+            <select id="dependencyLevel-${edge.from}-${edge.to}">
+                <option value="1" ${edge.requiredLevel === 1 ? "selected" : ""}>1</option>
+                <option value="5" ${edge.requiredLevel === 5 ? "selected" : ""}>5</option>
+                <option value="10" ${edge.requiredLevel === 10 ? "selected" : ""}>10</option>
+            </select>
+            </div>
+          `;
+                }
+                document.getElementById("allDependencies").checked = edges[0].requiresAll;
+            } else {
+                document.getElementById("allDependencies").checked = true;
+            }
+
+            document.getElementById("editForm").onsubmit = function (event) {
+                event.preventDefault();
+                updateSkill(nodeId);
+                closeForm();
+            };
+        }
+
+        // Function to add a new dependency field
+        function addDependencyField() {
+            const newFieldId = `new-${Date.now()}`; // Use the counter for uniqueness
+            const newField = `
+            <div class="form-group">
+                <label for="dependencyName-${newFieldId}">Dependency Name:</label>
+                <select id="dependencyName-${newFieldId}">
+                    <!-- Dynamically add skill options -->
+                    ${getSkillOptions()}
+                </select>
+                <label for="dependencyLevel-${newFieldId}">Dependency Level:</label>
+                <select id="dependencyLevel-${newFieldId}">
+                    <option value="1">1</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+        `;
+            document.getElementById("dependencyLevels").innerHTML += newField;
+        }
+
+        // Function to generate skill options for the dropdown
+        function getSkillOptions(selectedSkillId = 0, excludeSkillLabel = "") {
+            return skillsData.nodes
+                .map((node) => {
+                    const skillLabel = getNodeName(node.label);
+                    if (skillLabel !== excludeSkillLabel) {
+                        return `<option value="${node.id}" ${node.id === selectedSkillId ? "selected" : ""}>${skillLabel}</option>`;
+                    }
+                })
+                .join("");
+        }
+
+        // Function to update the skill when the form is submitted
+        function updateSkill(nodeId) {
+            const skillName = document.getElementById("skillName").value.trim();
+            const skillLevel = parseInt(document.getElementById("skillLevel").value, 10);
+            const requiresAllDependencies = document.getElementById("allDependencies").checked;
+
+            if (!skillName || isNaN(skillLevel)) {
+                alert("Please enter valid skill name and level.");
+                return;
+            }
+
+            if (skillLevel < 1 || skillLevel > 10) {
+                alert("Skill level must be between 1 and 10.");
+                return;
+            }
+
+            const nodeIndex = skillsData.nodes.findIndex((node) => node.id === nodeId);
+            const newNodeId = getSkillId(skillName)
+            skillsData.nodes[nodeIndex].label = `${skillName}`;
+            skillsData.nodes[nodeIndex].skillLevel = skillLevel;
+            skillsData.nodes[nodeIndex].id = newNodeId
+
+            // Remove existing edges for this skill
+            skillsData.edges = skillsData.edges.filter((edge) => edge.to !== nodeId);
+
+            // Add new edges based on entered dependencies and their levels
+            const dependencyLevelsDiv = document.querySelectorAll("#dependencyLevels > .form-group");
+            const newDependencies = [];
+
+            for (const dependencySkill of dependencyLevelsDiv) {
+                const dependencyInputs = dependencySkill.getElementsByTagName("select");
+                const fromNodeId = dependencyInputs[0].value
+                const dependencyLevel = parseInt(dependencyInputs[1].value, 10);
+
+                if (!isNaN(dependencyLevel)) {
+                    const existingEdge = skillsData.edges.find((edge) => edge.from === fromNodeId && edge.to === nodeId);
+                    if (existingEdge) {
+                        existingEdge.to = newNodeId
+                        existingEdge.label = requiresAllDependencies ? "Requires All" : "Requires One";
+                        existingEdge.requiredLevel = dependencyLevel;
+                        existingEdge.requiresAll = requiresAllDependencies;
+                    } else {
+                        newDependencies.push({
+                            from: fromNodeId,
+                            to: newNodeId,
+                            label: requiresAllDependencies ? "Requires All" : "Requires One",
+                            requiredLevel: dependencyLevel,
+                            requiresAll: requiresAllDependencies,
+                        });
+                    }
+                }
+            }
+            skillsData.edges.push(...newDependencies);
+
+            refreshDiagram();
+            populateSkillList();
+        }
+
+        // Function to close the edit form
+        function closeForm() {
+            document.getElementById("editForm").reset();
+        }
+
+        // Function to extract skill name from the node label
+        function getNodeName(label) {
+            return label.split("\n")[0];
+        }
+
+        function refreshDiagram() {
+            const container = document.getElementById("skillTree");
+            const nodes = [];
+            const edges = [];
+
+            // Calculate y positions for each skill level
+            const levels = {}; // Object to group nodes by level
+            for (const node of skillsData.nodes) {
+                if (!levels[node.skillLevel]) {
+                    levels[node.skillLevel] = [];
+                }
+                levels[node.skillLevel].push(node);
+            }
+
+            let y = 0;
+            for (const level of Object.values(levels)) {
+                const levelSize = level.length;
+                const yOffset = -(levelSize - 1) / 2;
+
+                for (let i = 0; i < levelSize; i++) {
+                    const node = level[i];
+                    nodes.push({ id: node.id, label: node.label, y: y + yOffset + i });
+                }
+
+                y += levelSize + 1; // Increase the y position for the next level
+            }
+
+            const options = {
+                layout: {
+                    hierarchical: {
+                        sortMethod: "directed",
+                        shakeTowards: "leaves"
+                    },
+                },
+                edges: {
+                    arrows: {
+                        to: true,
+                    },
+                    smooth: {
+                        type: "cubicBezier",
+                        forceDirection: "vertical",
+                        roundness: 0.4,
+                    },
+                },
+                nodes: {
+                    shape: "box",
+                    borderWidth: 2,
+                    size: 30,
+                },
+                physics: false,
+
+            };
+
+            // Collect edges from the skillsData and add their labels
+            const edgesWithLabels = skillsData.edges.map((edge) => {
+                const fromNode = skillsData.nodes.findIndex((node) => node.id === edge.from);
+                const toNode = skillsData.nodes.findIndex((node) => node.id === edge.to);
+                let color = "gray"; // Default color for arrows with no specific level requirement
+                if (edge.requiredLevel === 1) {
+                    color = "green";
+                } else if (edge.requiredLevel === 5) {
+                    color = "blue";
+                } else if (edge.requiredLevel === 10) {
+                    color = "red";
+                } return {
+                    from: edge.from,
+                    to: edge.to,
+                    label: `Level ${edge.requiredLevel}`,
+                    font: { align: "horizontal" },
+                    color: color,
+                };
+            });
+
+            const nodesWithLabels = skillsData.nodes.map((node) => ({
+                id: node.id,
+                label: `${node.label}\n(Max Lvl${node.skillLevel})`
+            }))
+            console.log(nodesWithLabels, edgesWithLabels)
+            const data = { nodes: nodesWithLabels, edges: edgesWithLabels };
+            network = new vis.Network(container, data, options);
+            document.getElementById("skillIdPrefix").value = skillIdPrefix
+        }
+
+        // Function to remove a skill dependency
+        function removeDependency(fromNodeId, toNodeId) {
+            if (confirm("Do you want to remove this dependency?")) {
+                const edge = skillsData.edges.find((e) => e.from === fromNodeId && e.to === toNodeId);
+                skillsData.edges = skillsData.edges.filter((e) => e !== edge);
+                refreshDiagram();
+            }
+        }
+
+        function clearInputs() {
+            document.getElementById("skillName").value = "";
+            document.getElementById("skillLevel").value = 1;
+            document.getElementById("dependency").value = "";
+            document.getElementById("requiredLevel").value = 1;
+        }
+        // Initial diagram rendering
+        refreshDiagram();
+        populateSkillList();
+
+        // Function to export skill settings as a YAML file
+        function exportSkillsAsYAML() {
+            const dataToExport = { idPrefix: skillIdPrefix, skills: skillsData.nodes, dependencies: skillsData.edges };
+            const yamlData = jsyaml.dump(dataToExport);
+            downloadFile("skill_settings.yaml", yamlData);
+        }
+
+        // Function to import skill settings from a YAML file
+        function importSkillsFromYAML(file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const yamlData = event.target.result;
+                const importedData = jsyaml.load(yamlData);
+                if (importedData && Array.isArray(importedData.skills)) {
+                    skillsData = {
+                        nodes: importedData.skills,
+                        edges: Array.isArray(importedData.dependencies) ? importedData.dependencies : []
+                    };
+                    skillIdPrefix = importedData.idPrefix
+                    refreshDiagram();
+                    populateSkillList();
+                } else {
+                    alert("Invalid YAML file format. Please make sure the file contains valid skill settings.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Function to trigger download of a file
+        function downloadFile(filename, content) {
+            const element = document.createElement("a");
+            element.setAttribute("href", "data:text/yaml;charset=utf-8," + encodeURIComponent(content));
+            element.setAttribute("download", filename);
+
+            element.style.display = "none";
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+
+        // Function to handle the selected file for import
+        function handleImportFile(event) {
+            const file = event.target.files[0];
+            if (file) {
+                importSkillsFromYAML(file);
+            }
+        }
+
+        // Function to export the diagram as a PNG image
+        function exportDiagramAsPNG() {
+            const canvas = network.canvas.frame.canvas;
+
+            // Create a temporary link to download the PNG image
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "skill_diagram.png";
+
+            // Trigger the click event of the link to initiate the download
+            link.click();
+
+            // Remove the temporary link
+            link.remove();
+        }
+
+        function updateSkillIdPrefix() {
+            skillIdPrefix = document.getElementById("skillIdPrefix").value
+            const newNodes = []
+            const newEdges = []
+            for (const node of skillsData.nodes) {
+                const newNodeId = getSkillId(node)
+                const newNode = {
+                    id: getSkillId(node.label),
+                    label: node.label,
+                    skillLevel: node.skillLevel
+                }
+                newNodes.push(newNode)
+                const existingEdges = skillsData.edges.find((edge) => edge.from === node.id || edge.to === node.id);
+                if (Array.isArray(existingEdges)) {
+
+                    newEdges.push(existingEdges.map((edge) => ({
+                        from: edge.from == node.id ? newNodeId : edge.from,
+                        to: edge.to == node.id ? newNodeId : edge.to,
+                        label: "Requires All",
+                        requiredLevel: edge.dependencyLevel,
+                        requiresAll: edge.requiresAllDependencies,
+                    })))
+                }
+            }
+            skillsData = {
+                nodes: newNodes,
+                edges: newEdges
+            }
+        }
+
+        function getSkillId(name) {
+            return `${skillIdPrefix}${name.replace(/[^a-z0-9]/gi, '')}`;
+        }
+    </script>
+</body>
+
+</html>

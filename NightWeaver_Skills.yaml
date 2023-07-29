@@ -1,0 +1,90 @@
+idPrefix: SKILL_NW_
+skills:
+  - id: SKILL_NW_BloodPact
+    label: Blood Pact
+    skillLevel: 1
+  - id: SKILL_NW_Bloodlust
+    label: Bloodlust
+    skillLevel: 1
+  - id: SKILL_NW_CursedFocus
+    label: Cursed Focus
+    skillLevel: 1
+  - id: SKILL_NW_DreadfulShriek
+    label: Dreadful Shriek
+    skillLevel: 1
+  - id: SKILL_NW_Duskblade
+    label: Duskblade
+    skillLevel: 1
+  - id: SKILL_NW_EclipseCounterflux
+    label: Eclipse Counterflux
+    skillLevel: 1
+  - id: SKILL_NW_EtherealReprisal
+    label: Ethereal Reprisal
+    skillLevel: 1
+  - id: SKILL_NW_FrenziedSavagery
+    label: Frenzied Savagery
+    skillLevel: 1
+  - id: SKILL_NW_GraspfromBeyond
+    label: Grasp from Beyond
+    skillLevel: 1
+  - id: SKILL_NW_LunarPhase
+    label: Lunar Phase
+    skillLevel: 1
+  - id: SKILL_NW_MidnightCataclysm
+    label: Midnight Cataclysm
+    skillLevel: 1
+  - id: SKILL_NW_ObsidianOnslaught
+    label: Obsidian Onslaught
+    skillLevel: 1
+  - id: SKILL_NW_RevenantsReprieve
+    label: Revenant's Reprieve
+    skillLevel: 1
+  - id: SKILL_NW_ShadowAttunement
+    label: Shadow Attunement
+    skillLevel: 1
+  - id: SKILL_NW_ShadowWalker
+    label: Shadow Walker
+    skillLevel: 1
+  - id: SKILL_NW_Shadowstep
+    label: Shadowstep
+    skillLevel: 1
+  - id: SKILL_NW_Connection
+    label: Soul Connection
+    skillLevel: 1
+  - id: SKILL_NW_Reap
+    label: Soul Reap
+    skillLevel: 1
+  - id: SKILL_NW_Siphon
+    label: Soul Siphon
+    skillLevel: 1
+  - id: SKILL_NW_SoulforgeBlade
+    label: Soulforge Blade
+    skillLevel: 1
+  - id: SKILL_NW_SoulrendingWrath
+    label: Soulrending Wrath
+    skillLevel: 1
+  - id: SKILL_NW_SpectralDevourer
+    label: Spectral Devourer
+    skillLevel: 1
+  - id: SKILL_NW_StarlessNight
+    label: Starless Night
+    skillLevel: 1
+  - id: SKILL_NW_TwilightShift
+    label: Twilight Shift
+    skillLevel: 1
+  - id: SKILL_NW_UncontrollableSurge
+    label: Uncontrollable Surge
+    skillLevel: 1
+  - id: SKILL_NW_VeilAttunement
+    label: Veil Attunement
+    skillLevel: 1
+  - id: SKILL_NW_VeilofObsidian
+    label: Veil of Obsidian
+    skillLevel: 1
+  - id: SKILL_NW_VoiddAttunement
+    label: Void Attunement
+    skillLevel: 1
+  - id: SKILL_NW_SpiritualRiposte
+    label: Spiritual Riposte
+    skillLevel: 1
+dependencies: []
