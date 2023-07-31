@@ -313,6 +313,7 @@
                             to: newNodeId,
                             label: requiresAllDependencies ? "Requires All" : "Requires One",
                             requiredLevel: dependencyLevel,
+                            cost: getRequirementCost(dependencyLevel),
                             requiresAll: requiresAllDependencies,
                         });
                     }
@@ -327,6 +328,14 @@
             skillsData.edges.push(...newDependencies);
             refreshDiagram();
             populateSkillList();
+        }
+
+        function getRequirementCost(level) {
+            if (level == 1)
+                return 30
+            else if (level == 5)
+                return 15
+            return 55
         }
 
         // Function to close the edit form
@@ -416,34 +425,56 @@
             // const nodeIdsWithDependencies = skillsData.edges.map((edge) => edge.from);
             // const dependencyNodeIds = [...new Set(nodeIdsWithDependencies)]; // Remove duplicates
 
-            const nodesWithLabels = skillsData.nodes.map((node) => ({
-                id: node.id,
-                label: `${node.label}\n(Max Lvl${node.skillLevel})`,
-                color: getNodeColor(node.id)
-            }))
+            const nodesWithLabels = skillsData.nodes.map((node) => getNodeInfo(node))
             const data = { nodes: nodesWithLabels, edges: edgesWithLabels };
             network = new vis.Network(container, data, options);
             network.on("selectNode", (ev) => setSelectedNode(ev.nodes[0]))
         }
 
-        function getNodeColor(nodeId) {
-            if (nodeId == selectedSkill)
-                return "rgb(200,150,150)"
-            else if (skillsHighlighted.indexOf(nodeId) > -1)
-                return "rgb(150,200,150)"
-            else
-                return "rgb(150,150,200)"
+        function getNodeInfo(node) {
+            let nodeInfo = {
+                id: node.id,
+                label: `${node.label}\n`,
+                color: {
+                    background: "rgb(150,150,200)",
+                    border: "rgb(200, 200, 200)"
+                },
+                borderWidth: 1
+            }
+            if (node.id == selectedSkill) {
+                nodeInfo.orderWidth = 3
+                nodeInfo.color.background = "rgb(200,150,150)"
+                nodeInfo.color.border = "rgb(255,0,0)"
+                nodeInfo.label = `${node.label}\n(${skillsHighlighted.reduce((sum, skill) => sum + skill.cost, 0)})`
+            }
+            else if (skillsHighlighted.find(n => n.id == node.id) !== undefined) {
+                nodeInfo.borderWidth = 2
+                nodeInfo.color.background = "rgb(150,200,150)"
+                nodeInfo.color.border = "rgb(0,255,0)"
+            }
+
+            return nodeInfo
+
         }
 
         function setSelectedNode(nodeId) {
             selectedSkill = nodeId
             openForm(selectedSkill)
             skillsHighlighted = getAllSelectedSkillTree(nodeId)
+                .sort((skillA, skillB) =>
+                    (skillA.id === skillB.id) ?
+                        ((skillA.cost > skillB.cost) ? -1 : 1) :
+                        ((skillA.id > skillB.id) ? 1 : -1))
+                .filter((skill, i, skills) => i == 0 || skills[i - 1].id !== skill.id)
             refreshDiagram()
         }
 
-        function getAllSelectedSkillTree(nodeId, nodes = []) {
-            return [nodeId, ...skillsData.edges.filter((edge) => edge.to == nodeId).flatMap(edge => getAllSelectedSkillTree(edge.from))]
+        function getAllSelectedSkillTree(nodeId, cost = 0) {
+            const currentSkill = {
+                ...skillsData.nodes.find(node => node.id == nodeId),
+                cost: cost
+            }
+            return [currentSkill, ...skillsData.edges.filter((edge) => edge.to == nodeId).flatMap(edge => getAllSelectedSkillTree(edge.from, edge.cost))]
         }
 
         // Function to remove a skill dependency

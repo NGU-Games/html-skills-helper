@@ -5,13 +5,13 @@ const getTotalStatusCost = (statLevel) => {
     return ((baseLevel - 1) / 2 + 1) * baseLevel * 10 + (statLevel + 1 - baseLevel * 10) * (baseLevel + 1) - 2
 }
 
-const totalStatusPointsAvailable = (currentLevel) => Array.from({length: currentLevel - 1}, (_, i) => { 
+const totalStatusPointsAvailable = (currentLevel) => Array.from({ length: currentLevel - 1 }, (_, i) => {
     const currentLevel = i + 2
     const levelBase = Math.floor(currentLevel / 10)
-    return { 
-        lvl: currentLevel, 
+    return {
+        lvl: currentLevel,
         points: levelBase + 5 + (currentLevel % 10 == 0 ? (levelBase - 1) * 11 : 0)
-    } 
+    }
 }).reduce((s, v) => s + v.points, 0)
 
 const calculateStatBonus = (stat) => {
@@ -165,4 +165,3 @@ const secondaryAttributes = {
     }
 }
 // const calculatedSecondaryStats = (secondaryAttributes + equipamentAndSkillSummary.secondaryStatsRaw) * equipamentAndSkillSummary.secondaryStatsPercent
-
