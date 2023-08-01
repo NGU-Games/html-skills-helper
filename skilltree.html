@@ -155,7 +155,7 @@
                 const listItem = document.createElement("li");
                 listItem.textContent = skillName;
                 listItem.onclick = function () {
-                    openForm(node.id);
+                    setSelectedNode(node.id);
                 };
                 skillList.appendChild(listItem);
             }
@@ -180,7 +180,7 @@
           </div>
           <div class="form-group">
             <button type="button" onclick="addDependencyField()">Add Dependency</button>
-            <label for="dependency">Dependencies:</label>
+            <label for="dependency">Dependencies (Cost ${skillsHighlighted.reduce((sum, skill) => sum + skill.cost, 0)})</label>
             <div id="dependencyLevels">
               <!-- Dynamically add dependency levels -->
             </div>
@@ -377,9 +377,11 @@
 
             const options = {
                 layout: {
+                    improvedLayout: true,
                     hierarchical: {
-                        sortMethod: "directed",
-                    },
+                        sortMethod: "hubsize",
+                        direction: "DU"
+                    }
                 },
                 edges: {
                     smooth: {
@@ -397,7 +399,9 @@
                 physics: {
                     hierarchicalRepulsion: {
                         avoidOverlap: 1,
+                        nodeDistance: 150
                     },
+                    solver: "forceAtlas2Based"
                 },
             };
 
@@ -459,13 +463,13 @@
 
         function setSelectedNode(nodeId) {
             selectedSkill = nodeId
-            openForm(selectedSkill)
             skillsHighlighted = getAllSelectedSkillTree(nodeId)
                 .sort((skillA, skillB) =>
                     (skillA.id === skillB.id) ?
                         ((skillA.cost > skillB.cost) ? -1 : 1) :
                         ((skillA.id > skillB.id) ? 1 : -1))
                 .filter((skill, i, skills) => i == 0 || skills[i - 1].id !== skill.id)
+            openForm(selectedSkill)
             refreshDiagram()
         }
 

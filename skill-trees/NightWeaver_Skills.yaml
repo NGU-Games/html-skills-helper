@@ -1,10 +1,10 @@
 idPrefix: SKILL_NW_
 skills:
-  - id: SKILL_NW_BloodPact
-    label: Blood Pact
-    skillLevel: 1
   - id: SKILL_NW_Bloodlust
     label: Bloodlust
+    skillLevel: 1
+  - id: SKILL_NW_CrimsonHunger
+    label: Crimson Hunger
     skillLevel: 1
   - id: SKILL_NW_CursedFocus
     label: Cursed Focus
@@ -15,32 +15,26 @@ skills:
   - id: SKILL_NW_Duskblade
     label: Duskblade
     skillLevel: 1
-  - id: SKILL_NW_EclipseCounterflux
-    label: Eclipse Counterflux
-    skillLevel: 1
-  - id: SKILL_NW_EtherealReprisal
-    label: Ethereal Reprisal
-    skillLevel: 1
   - id: SKILL_NW_FrenziedSavagery
     label: Frenzied Savagery
     skillLevel: 1
-  - id: SKILL_NW_GraspfromBeyond
-    label: Grasp from Beyond
+  - id: SKILL_NW_IgnoretheVeil
+    label: Ignore the Veil
     skillLevel: 1
   - id: SKILL_NW_LunarPhase
     label: Lunar Phase
     skillLevel: 1
-  - id: SKILL_NW_MidnightCataclysm
-    label: Midnight Cataclysm
+  - id: SKILL_NW_MalevolentBlitz
+    label: Malevolent Blitz
     skillLevel: 1
-  - id: SKILL_NW_ObsidianOnslaught
-    label: Obsidian Onslaught
+  - id: SKILL_NW_MidnightAssault
+    label: Midnight Assault
+    skillLevel: 1
+  - id: SKILL_NW_RecklessOffense
+    label: Reckless Offense
     skillLevel: 1
   - id: SKILL_NW_RevenantsReprieve
     label: Revenant's Reprieve
-    skillLevel: 1
-  - id: SKILL_NW_ShadowAttunement
-    label: Shadow Attunement
     skillLevel: 1
   - id: SKILL_NW_ShadowWalker
     label: Shadow Walker
@@ -48,14 +42,11 @@ skills:
   - id: SKILL_NW_Shadowstep
     label: Shadowstep
     skillLevel: 1
-  - id: SKILL_NW_Connection
+  - id: SKILL_NW_SoulConnection
     label: Soul Connection
     skillLevel: 1
-  - id: SKILL_NW_Reap
+  - id: SKILL_NW_SoulReap
     label: Soul Reap
-    skillLevel: 1
-  - id: SKILL_NW_Siphon
-    label: Soul Siphon
     skillLevel: 1
   - id: SKILL_NW_SoulforgeBlade
     label: Soulforge Blade
@@ -69,22 +60,250 @@ skills:
   - id: SKILL_NW_StarlessNight
     label: Starless Night
     skillLevel: 1
+  - id: SKILL_NW_TormentedSouls
+    label: Tormented Souls
+    skillLevel: 1
   - id: SKILL_NW_TwilightShift
     label: Twilight Shift
+    skillLevel: 1
+  - id: SKILL_NW_UmbralRift
+    label: Umbral Rift
     skillLevel: 1
   - id: SKILL_NW_UncontrollableSurge
     label: Uncontrollable Surge
     skillLevel: 1
-  - id: SKILL_NW_VeilAttunement
-    label: Veil Attunement
-    skillLevel: 1
-  - id: SKILL_NW_VeilofObsidian
-    label: Veil of Obsidian
-    skillLevel: 1
-  - id: SKILL_NW_VoiddAttunement
-    label: Void Attunement
-    skillLevel: 1
-  - id: SKILL_NW_SpiritualRiposte
-    label: Spiritual Riposte
-    skillLevel: 1
-dependencies: []
+dependencies:
+  - from: SKILL_NW_CrimsonHunger
+    to: SKILL_NW_Bloodlust
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_SoulrendingWrath
+    to: SKILL_NW_CrimsonHunger
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_CursedFocus
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_ShadowWalker
+    to: SKILL_NW_Duskblade
+    label: Requires All
+    requiredLevel: 1
+    cost: 30
+    requiresAll: true
+  - from: SKILL_NW_TwilightShift
+    to: SKILL_NW_Duskblade
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_TwilightShift
+    to: SKILL_NW_MidnightAssault
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_Shadowstep
+    to: SKILL_NW_MidnightAssault
+    label: Requires All
+    requiredLevel: 1
+    cost: 30
+    requiresAll: true
+  - from: SKILL_NW_SoulConnection
+    to: SKILL_NW_RevenantsReprieve
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_RevenantsReprieve
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_CrimsonHunger
+    to: SKILL_NW_MalevolentBlitz
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_SoulReap
+    to: SKILL_NW_MalevolentBlitz
+    label: Requires All
+    requiredLevel: 1
+    cost: 30
+    requiresAll: true
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_SoulConnection
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_ShadowWalker
+    to: SKILL_NW_TwilightShift
+    label: Requires All
+    requiredLevel: 1
+    cost: 30
+    requiresAll: true
+  - from: SKILL_NW_CursedFocus
+    to: SKILL_NW_UmbralRift
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_SoulConnection
+    to: SKILL_NW_SoulforgeBlade
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_RevenantsReprieve
+    to: SKILL_NW_SpectralDevourer
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_Bloodlust
+    to: SKILL_NW_FrenziedSavagery
+    label: Requires All
+    requiredLevel: 1
+    cost: 30
+    requiresAll: true
+  - from: SKILL_NW_SoulrendingWrath
+    to: SKILL_NW_FrenziedSavagery
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_CrimsonHunger
+    to: SKILL_NW_FrenziedSavagery
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_TwilightShift
+    to: SKILL_NW_Shadowstep
+    label: Requires All
+    requiredLevel: 1
+    cost: 30
+    requiresAll: true
+  - from: SKILL_NW_TwilightShift
+    to: SKILL_NW_LunarPhase
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_LunarPhase
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_CrimsonHunger
+    to: SKILL_NW_RecklessOffense
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_RecklessOffense
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_ShadowWalker
+    to: SKILL_NW_RecklessOffense
+    label: Requires All
+    requiredLevel: 1
+    cost: 30
+    requiresAll: true
+  - from: SKILL_NW_SoulrendingWrath
+    to: SKILL_NW_SoulReap
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_SoulConnection
+    to: SKILL_NW_SoulReap
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_UmbralRift
+    to: SKILL_NW_TormentedSouls
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_TormentedSouls
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_TormentedSouls
+    to: SKILL_NW_DreadfulShriek
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_SpectralDevourer
+    to: SKILL_NW_DreadfulShriek
+    label: Requires All
+    requiredLevel: 5
+    cost: 15
+    requiresAll: true
+  - from: SKILL_NW_UmbralRift
+    to: SKILL_NW_DreadfulShriek
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_MalevolentBlitz
+    to: SKILL_NW_UncontrollableSurge
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_FrenziedSavagery
+    to: SKILL_NW_UncontrollableSurge
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_SoulrendingWrath
+    to: SKILL_NW_UncontrollableSurge
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_MidnightAssault
+    to: SKILL_NW_StarlessNight
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_LunarPhase
+    to: SKILL_NW_StarlessNight
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_StarlessNight
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
+  - from: SKILL_NW_TwilightShift
+    to: SKILL_NW_StarlessNight
+    label: Requires All
+    requiredLevel: 10
+    cost: 55
+    requiresAll: true
