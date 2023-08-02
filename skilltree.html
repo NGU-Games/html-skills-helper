@@ -26,26 +26,19 @@
 
         #skillTree {
             flex: 2;
-            width: 800px;
-            height: 600px;
+            width: 100%;
+            height: 800px;
             border: 1px solid #ccc;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            margin-bottom: 10px;
+            margin-bottom: 2px;
         }
 
         .form-group label {
             font-weight: bold;
-        }
-
-        .form-group input,
-        .form-group select {
-            margin-top: 5px;
-            padding: 5px;
-            font-size: 16px;
         }
 
         .form-group .btn {
@@ -61,6 +54,10 @@
         .form-group .btn.cancel {
             background-color: #ccc;
             margin-right: 5px;
+        }
+
+        .margin-all>* {
+            margin-left: 4px;
         }
 
         #skillList {
@@ -84,6 +81,60 @@
             border: none;
             border-radius: 4px;
         }
+
+        .small-btn {
+            margin-top: 2px;
+            padding: 2px 14px;
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 2px;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #skillTree:-webkit-full-screen {
+            background-color: #fff;
+            width: 100%;
+            height: 100%;
+        }
+
+        #skillTree:-moz-full-screen {
+            background-color: #fff;
+            width: 100%;
+            height: 100%;
+        }
+
+        #skillTree:fullscreen {
+            background-color: #fff;
+            width: 100%;
+            height: 100%;
+        }
+
+        .skill-editor {
+            width: 70%;
+        }
+
+        .skill-space {
+            width: 30%
+        }
+
+        select,
+        option,
+        input {
+            margin-top: 2px;
+            padding: 0;
+            font-size: small;
+        }
     </style>
     <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
@@ -94,13 +145,6 @@
     <h1>Skill Tree Visualization</h1>
 
     <div id="skillTreeContainer">
-        <div id="skillEditor">
-            <h2>Edit Skill</h2>
-            <div id="skillForm">
-                <!-- Dynamically insert the skill form here -->
-            </div>
-        </div>
-
         <div id="skillTree"></div>
     </div>
 
@@ -113,9 +157,18 @@
         <input type="file" id="importFileInput" accept=".yaml" style="display: none" onchange="handleImportFile(event)">
         <button onclick="document.getElementById('importFileInput').click()">Import Skills from YAML</button>
         <button onclick="exportDiagramAsPNG()">Save Diagram as PNG</button>
+        <button onClick="maximizeDiagram()">Go Fullscreen</button>
     </div>
-    <div id="skillList">
-        <!-- Dynamically display skill list here -->
+    <div class="flex-row">
+        <div id="skillEditor" class="skill-editor">
+            <h2>Edit Skill</h2>
+            <div id="skillForm">
+                <!-- Dynamically insert the skill form here -->
+            </div>
+        </div>
+        <div id="skillList" class="skill-list">
+            <!-- Dynamically display skill list here -->
+        </div>
     </div>
 
     <script>
@@ -125,7 +178,7 @@
         let skillsHighlighted = []
         let skillsData = {
             nodes: [
-                { id: getSkillId("Skill 1"), label: "Skill 1", skillLevel: 1 },
+                { id: getSkillId("Skill 1"), label: "Skill 1", skillLevel: 1, isUlt: false },
             ],
             edges: [],
         };
@@ -136,13 +189,17 @@
         function addNewSkill() {
             const newNodeLabel = "New Skill " + parseInt(skillsData.nodes.length + 1)
             const newNodeId = getSkillId(newNodeLabel)
-            skillsData.nodes.push({
+            const newSkill = {
                 id: newNodeId,
                 label: newNodeLabel,
-                skillLevel: 1
-            });
+                skillLevel: 1,
+                isUlt: false
+            }
+            skillsData.nodes.push(newSkill);
             refreshDiagram();
             populateSkillList(); // Add this line to update the skill list
+            setSelectedNode(newSkill.id)
+            // openForm(newSkill.id)
         }
 
         // Function to populate the skill list
@@ -166,29 +223,34 @@
             const node = skillsData.nodes.find((node) => node.id === nodeId);
             const skillForm = `
         <form id="editForm">
-          <div class="form-group">
-            <label for="skillName">Skill Name:</label>
-            <input type="text" id="skillName" value="${getNodeName(node.label)}" required>
-          </div>
-          <div class="form-group">
-            <label for="skillLevel">Skill Level:</label>
-            <select id="skillLevel">
-                <option value="1" ${node.skillLevel === 1 ? "selected" : ""}>1</option>
-                <option value="5" ${node.skillLevel === 5 ? "selected" : ""}>5</option>
-                <option value="10" ${node.skillLevel === 10 ? "selected" : ""}>10</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <button type="button" onclick="addDependencyField()">Add Dependency</button>
-            <label for="dependency">Dependencies (Cost ${skillsHighlighted.reduce((sum, skill) => sum + skill.cost, 0)})</label>
-            <div id="dependencyLevels">
-              <!-- Dynamically add dependency levels -->
+            <div class="flex-row">
+                <div class="flex-column">
+                    <div class="flex-row margin-all">
+                        <input type="text" id="skillName" value="${getNodeName(node.label)}" required>
+                        <select id="skillLevel">
+                            <option value="1" ${node.skillLevel === 1 ? "selected" : ""}>1</option>
+                            <option value="5" ${node.skillLevel === 5 ? "selected" : ""}>5</option>
+                            <option value="10" ${node.skillLevel === 10 ? "selected" : ""}>10</option>
+                        </select>
+                    </div>
+                    <div class="flex-row margin-all">
+                        <label for="dependency">Dependencies (Cost ${skillsHighlighted.reduce((sum, skill) => sum + skill.cost, 0)})</label>
+                        <button type="button" class="small-btn" onclick="addDependencyField()">+</button>
+                    </div>
+                </div>
+                <div class="dependencies">
+                    <div class="form-group margin-all">
+                        <div id="dependencyLevels">
+                            <!-- Dynamically add dependency levels -->
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <input type="checkbox" id="allDependencies" checked>
-          <label for="allDependencies">Requires All Dependencies</label>
-          <button class="btn cancel" onclick="closeForm()">Cancel</button>
-          <button class="btn" type="submit">Save Changes</button>
+            <input type="checkbox" id="isUlt" ${node.isUlt ? "checked" : ""} />
+            <label for="isUlt">Is Ult?</label>
+            <button class="btn cancel" onclick="closeForm()">Cancel</button>
+            <button class="btn" type="submit">Save Changes</button>
+
         </form>
       `;
 
@@ -199,26 +261,23 @@
 
             const edges = skillsData.edges.filter((edge) => edge.to === nodeId);
             if (edges.length > 0) {
-                for (const edge of edges) {
+                for (const i in edges) {
+                    const edge = edges[i]
                     dependencyLevelsDiv.innerHTML += `
-            <div class="form-group">
-              <label for="dependencyName-${edge.from}-${edge.to}">Dependency Name:</label>
+            <div class="form-group flex-row margin-all">
               <select id="dependencyName-${edge.from}-${edge.to}">
                 <!-- Dynamically add skill options -->
                 ${getSkillOptions(edge.from, nodeId)}
               </select>
-              <label for="dependencyLevel-${edge.from}-${edge.to}">Dependency Level:</label>
-            <select id="dependencyLevel-${edge.from}-${edge.to}">
+                <select id="dependencyLevel-${edge.from}-${edge.to}">
                 <option value="1" ${edge.requiredLevel === 1 ? "selected" : ""}>1</option>
                 <option value="5" ${edge.requiredLevel === 5 ? "selected" : ""}>5</option>
                 <option value="10" ${edge.requiredLevel === 10 ? "selected" : ""}>10</option>
             </select>
+                <button type="button" class="small-btn" onclick="removeDependency(this)">X</button>
             </div>
           `;
                 }
-                document.getElementById("allDependencies").checked = edges[0].requiresAll;
-            } else {
-                document.getElementById("allDependencies").checked = true;
             }
 
             document.getElementById("editForm").onsubmit = function (event) {
@@ -232,22 +291,25 @@
 
         }
 
+        function removeDependency(e) {
+            e.parentElement.remove()
+        }
+
         // Function to add a new dependency field
         function addDependencyField() {
             const newFieldId = `new-${Date.now()}`; // Use the counter for uniqueness
             const newField = `
-            <div class="form-group">
-                <label for="dependencyName-${newFieldId}">Dependency Name:</label>
+            <div class="form-group flex-row margin-all">
                 <select id="dependencyName-${newFieldId}">
                     <!-- Dynamically add skill options -->
                     ${getSkillOptions()}
                 </select>
-                <label for="dependencyLevel-${newFieldId}">Dependency Level:</label>
                 <select id="dependencyLevel-${newFieldId}">
                     <option value="1">1</option>
                     <option value="5">5</option>
                     <option value="10">10</option>
                 </select>
+                <button type="button" class="small-btn" onclick="removeDependency(this)">X</button>
             </div>
         `;
             document.getElementById("dependencyLevels").innerHTML += newField;
@@ -269,15 +331,10 @@
         function updateSkill(nodeId) {
             const skillName = document.getElementById("skillName").value.trim();
             const skillLevel = parseInt(document.getElementById("skillLevel").value, 10);
-            const requiresAllDependencies = document.getElementById("allDependencies").checked;
+            const isUlt = document.getElementById("isUlt").checked;
 
             if (!skillName || isNaN(skillLevel)) {
                 alert("Please enter valid skill name and level.");
-                return;
-            }
-
-            if (skillLevel < 1 || skillLevel > 10) {
-                alert("Skill level must be between 1 and 10.");
                 return;
             }
 
@@ -286,6 +343,7 @@
             skillsData.nodes[nodeIndex].label = `${skillName}`;
             skillsData.nodes[nodeIndex].skillLevel = skillLevel;
             skillsData.nodes[nodeIndex].id = newNodeId
+            skillsData.nodes[nodeIndex].isUlt = isUlt
 
             // Remove existing edges for this skill
             skillsData.edges = skillsData.edges.filter((edge) => edge.to !== nodeId);
@@ -304,17 +362,13 @@
                     if (existingEdge) {
                         existingEdge.from = fromNodeId
                         existingEdge.to = newNodeId
-                        existingEdge.label = requiresAllDependencies ? "Requires All" : "Requires One";
                         existingEdge.requiredLevel = dependencyLevel;
-                        existingEdge.requiresAll = requiresAllDependencies;
                     } else {
                         newDependencies.push({
                             from: fromNodeId,
                             to: newNodeId,
-                            label: requiresAllDependencies ? "Requires All" : "Requires One",
                             requiredLevel: dependencyLevel,
                             cost: getRequirementCost(dependencyLevel),
-                            requiresAll: requiresAllDependencies,
                         });
                     }
                 }
@@ -325,7 +379,9 @@
                     existingEdgesFrom.from = newNodeId
                 }
             }
+
             skillsData.edges.push(...newDependencies);
+            // setSelectedNode(selectedSkill || skillsData.nodes[-1].id)
             refreshDiagram();
             populateSkillList();
         }
@@ -376,12 +432,15 @@
             }
 
             const options = {
+                autoResize: false,
                 layout: {
                     improvedLayout: true,
-                    hierarchical: {
-                        sortMethod: "hubsize",
-                        direction: "DU"
-                    }
+                    // hierarchical: {
+                    //     blockShift: false,
+                    //     sortMethod: "hubsize",
+                    //     shakeTowards: "roots",
+                    //     direction: "DU"
+                    // }
                 },
                 edges: {
                     smooth: {
@@ -389,7 +448,8 @@
                         forceDirection: "vertical",
                         roundness: 0.4,
                     },
-                    arrows: "to"
+                    arrows: "to",
+                    length: 200
                 },
                 nodes: {
                     shape: "box",
@@ -397,9 +457,14 @@
                     size: 30,
                 },
                 physics: {
+                    enabled: false,
                     hierarchicalRepulsion: {
                         avoidOverlap: 1,
                         nodeDistance: 150
+                    },
+                    repulsion: {
+                        nodeDistance: 500,
+                        springLength: 5
                     },
                     solver: "forceAtlas2Based"
                 },
@@ -416,12 +481,15 @@
                     color = "blue";
                 } else if (edge.requiredLevel === 10) {
                     color = "red";
-                } return {
+                }
+
+                return {
                     from: edge.from,
                     to: edge.to,
                     label: `Level ${edge.requiredLevel}`,
                     font: { align: "horizontal" },
                     color: color,
+                    width: skillsHighlighted.find(s => s.id == edge.to) === undefined ? 1 : 4
                 };
             });
 
@@ -433,6 +501,10 @@
             const data = { nodes: nodesWithLabels, edges: edgesWithLabels };
             network = new vis.Network(container, data, options);
             network.on("selectNode", (ev) => setSelectedNode(ev.nodes[0]))
+            network.on("afterDrawing", () => {
+                skillsData.nodes
+                    .forEach((s, i) => skillsData.nodes[i] = { ...s, ...network.getPosition(s.id) })
+            })
         }
 
         function getNodeInfo(node) {
@@ -440,21 +512,39 @@
                 id: node.id,
                 label: `${node.label}\n`,
                 color: {
-                    background: "rgb(150,150,200)",
+                    background: "rgb(200,220,255)",
                     border: "rgb(200, 200, 200)"
                 },
-                borderWidth: 1
+                font: {
+                    color: "#000000",
+                    bold: false
+                },
+                borderWidth: 1,
+                x: node.x,
+                y: node.y
             }
+
+            if (skillsData.edges.find(e => e.to == node.id) === undefined) {
+                nodeInfo.color.background = "rgb(255,220,200)"
+            }
+
+            if (skillsData.edges.find(e => e.from == node.id) === undefined) {
+                nodeInfo.color.background = "rgb(220,255,200)"
+            }
+
             if (node.id == selectedSkill) {
-                nodeInfo.orderWidth = 3
-                nodeInfo.color.background = "rgb(200,150,150)"
-                nodeInfo.color.border = "rgb(255,0,0)"
+                nodeInfo.borderWidth = 4
+                nodeInfo.color.background = "rgb(0,0,255)"
+                nodeInfo.color.border = "rgb(0,200,255)"
+                nodeInfo.font.color = "#ffffff"
+                nodeInfo.font.bold = true
                 nodeInfo.label = `${node.label}\n(${skillsHighlighted.reduce((sum, skill) => sum + skill.cost, 0)})`
             }
             else if (skillsHighlighted.find(n => n.id == node.id) !== undefined) {
                 nodeInfo.borderWidth = 2
-                nodeInfo.color.background = "rgb(150,200,150)"
-                nodeInfo.color.border = "rgb(0,255,0)"
+                nodeInfo.color.background = "rgb(50,50,255)"
+                nodeInfo.font.color = "#ffffff"
+                nodeInfo.color.border = "rgb(0,200,255)"
             }
 
             return nodeInfo
@@ -469,7 +559,7 @@
                         ((skillA.cost > skillB.cost) ? -1 : 1) :
                         ((skillA.id > skillB.id) ? 1 : -1))
                 .filter((skill, i, skills) => i == 0 || skills[i - 1].id !== skill.id)
-            openForm(selectedSkill)
+            openForm(nodeId)
             refreshDiagram()
         }
 
@@ -479,15 +569,6 @@
                 cost: cost
             }
             return [currentSkill, ...skillsData.edges.filter((edge) => edge.to == nodeId).flatMap(edge => getAllSelectedSkillTree(edge.from, edge.cost))]
-        }
-
-        // Function to remove a skill dependency
-        function removeDependency(fromNodeId, toNodeId) {
-            if (confirm("Do you want to remove this dependency?")) {
-                const edge = skillsData.edges.find((e) => e.from === fromNodeId && e.to === toNodeId);
-                skillsData.edges = skillsData.edges.filter((e) => e !== edge);
-                refreshDiagram();
-            }
         }
 
         function clearInputs() {
@@ -584,9 +665,7 @@
                     newEdges.push(existingEdges.map((edge) => ({
                         from: edge.from == node.id ? newNodeId : edge.from,
                         to: edge.to == node.id ? newNodeId : edge.to,
-                        label: "Requires All",
                         requiredLevel: edge.dependencyLevel,
-                        requiresAll: edge.requiresAllDependencies,
                     })))
                 }
             }
@@ -598,6 +677,19 @@
 
         function getSkillId(name) {
             return `${skillIdPrefix}${name.replace(/[^a-z0-9]/gi, '')}`;
+        }
+
+        function maximizeDiagram() {
+            var canvas = document.getElementById('skillTree');
+            if (canvas.requestFullscreen) {
+                canvas.requestFullscreen();
+            } else if (canvas.mozRequestFullScreen) { /* Firefox */
+                canvas.mozRequestFullScreen();
+            } else if (canvas.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                canvas.webkitRequestFullscreen();
+            } else if (canvas.msRequestFullscreen) { /* IE/Edge */
+                canvas.msRequestFullscreen();
+            }
         }
     </script>
 </body>
