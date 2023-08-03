@@ -2,122 +2,122 @@ idPrefix: SKILL_NW_
 skills:
   - id: SKILL_NW_Bloodlust
     label: Bloodlust
-    skillLevel: 1
+    skillType: 1
     x: 89
     "y": -694
   - id: SKILL_NW_CrimsonHunger
     label: Crimson Hunger
-    skillLevel: 1
+    skillType: 2
     x: 331
     "y": -571
   - id: SKILL_NW_CursedFocus
     label: Cursed Focus
-    skillLevel: 1
+    skillType: 2
     x: 326
     "y": -96
   - id: SKILL_NW_DreadfulShriek
     label: Dreadful Shriek
-    skillLevel: 1
+    skillType: 2
     x: 1396
     "y": -50
   - id: SKILL_NW_MoonshadowStrike
     label: Moonshadow Strike
-    skillLevel: 1
+    skillType: 2
     x: 954
     "y": -150
   - id: SKILL_NW_FrenziedSavagery
     label: Frenzied Savagery
-    skillLevel: 1
+    skillType: 2
     x: 972
     "y": -579
   - id: SKILL_NW_IgnoretheVeil
     label: Ignore the Veil
-    skillLevel: 1
+    skillType: 2
     x: 342
     "y": 74
   - id: SKILL_NW_LunarPhase
     label: Lunar Phase
-    skillLevel: 1
+    skillType: 2
     x: 912
     "y": -368
   - id: SKILL_NW_AbyssalAssault
     label: Abyssal Assault
-    skillLevel: 1
+    skillType: 2
     x: 852
     "y": -466
   - id: SKILL_NW_MidnightInfestation
     label: Midnight Infestation
-    skillLevel: 1
+    skillType: 2
     x: 1170
     "y": -148
   - id: SKILL_NW_RecklessOffense
     label: Reckless Offense
-    skillLevel: 1
+    skillType: 2
     x: 1552
     "y": -697
   - id: SKILL_NW_RevenantsReprieve
     label: Revenant's Reprieve
-    skillLevel: 1
+    skillType: 2
     x: 1575
     "y": -429
   - id: SKILL_NW_ShadowWalker
     label: Shadow Walker
-    skillLevel: 1
+    skillType: 1
     x: 326
     "y": -374
   - id: SKILL_NW_Shadowstep
     label: Shadowstep
-    skillLevel: 1
+    skillType: 1
     x: 610
     "y": -311
   - id: SKILL_NW_SoulConnection
     label: Soul Connection
-    skillLevel: 1
+    skillType: 2
     x: 17
     "y": -319
   - id: SKILL_NW_SoulReap
     label: Soul Reap
-    skillLevel: 1
+    skillType: 1
     x: 968
     "y": -713
   - id: SKILL_NW_SoulforgeBlade
     label: Soulforge Blade
-    skillLevel: 1
+    skillType: 2
     x: 641
     "y": -169
   - id: SKILL_NW_SoulrendingWrath
     label: Soulrending Wrath
-    skillLevel: 1
+    skillType: 2
     x: 336
     "y": -464
   - id: SKILL_NW_SpectralDevourer
     label: Spectral Devourer
-    skillLevel: 1
+    skillType: 2
     x: 1574
     "y": -198
   - id: SKILL_NW_StarlessNight
     label: Starless Night
-    skillLevel: 1
+    skillType: 2
     x: 1363
     "y": -313
   - id: SKILL_NW_TormentedSouls
     label: Tormented Souls
-    skillLevel: 1
+    skillType: 2
     x: 769
     "y": 74
   - id: SKILL_NW_TwilightShift
     label: Twilight Shift
-    skillLevel: 1
+    skillType: 2
     x: 920
     "y": -284
   - id: SKILL_NW_UmbralRift
     label: Umbral Rift
-    skillLevel: 1
+    skillType: 2
     x: 767
     "y": -86
   - id: SKILL_NW_UncontrollableSurge
     label: Uncontrollable Surge
-    skillLevel: 1
+    skillType: 2
     x: 1346
     "y": -569
 dependencies:

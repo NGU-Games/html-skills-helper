@@ -1,20 +1,19 @@
 
-const calculateSkillPointsAvailable = (currentLevel) => Array.from({length: currentLevel}, (_, i) => { 
+const calculateSkillPointsAvailable = (currentLevel) => Array.from({ length: currentLevel }, (_, i) => {
     const currentLevel = i + 1
     const levelBase = Math.floor(currentLevel / 10)
-    return { 
-        lvl: currentLevel, 
+    return {
+        lvl: currentLevel,
         points: levelBase + 1
-    } 
+    }
 }).reduce((s, v) => s + v.points, 0)
 
 const calculateSkillPointCost = (skillLevel, skillType = 10) => {
     return skillType == 1 ? 30 : skillLevel
 }
 
-const calculateAccumulatedSkillPointCost = (skillLevel) => Array.from({length: skillLevel}, (_, i) => { 
+const calculateAccumulatedSkillPointCost = (skillLevel) => Array.from({ length: skillLevel }, (_, i) => {
     const skillLevel = i + 1
-    console.log(skillLevel)
     return calculateSkillPointCost(skillLevel)
 }).reduce((s, v) => s + v, 0)
 
@@ -65,7 +64,7 @@ const skillStruct = {
     id: 123, // unique skill id
     animationId: 321, // unique skill animation id
     type: "active|passive|conditional",
-    isAvailable: true|false, // if the skill is available to be used (already purchased)
+    isAvailable: true | false, // if the skill is available to be used (already purchased)
     requirements: [
         {
             type: "stat|skill|event",
@@ -103,7 +102,7 @@ const skillStruct = {
                 array of arrays. all the internal arrays must have the same size.
                 example for a custom X shape in front of the character
             */
-            customShape: [ 
+            customShape: [
                 [1, 0, 1],
                 [0, 1, 0],
                 [1, 0, 1],
