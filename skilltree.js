@@ -155,10 +155,10 @@ function getSkillOptions(selectedSkillId, excludeSkillLabel = "") {
 // Function to update the skill when the form is submitted
 function updateSkill(nodeId) {
     const skillName = document.getElementById("skillName").value.trim();
-    const skillLevel = parseInt(document.getElementById("skillLevel").value, 10);
+    const skillType = parseInt(document.getElementById("skillType").value, 10);
     const isUlt = document.getElementById("isUlt").checked;
 
-    if (!skillName || isNaN(skillLevel)) {
+    if (!skillName) {
         alert("Please enter valid skill name and level.");
         return;
     }

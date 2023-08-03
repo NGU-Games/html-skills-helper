@@ -1,5 +1,5 @@
 let buildSkills = []
-
+const startingSkillPoints = 30
 // Function to calculate the total cost of a skill based on its type
 function calculateSkillCost(level, type = 1) {
     if (type === 1) {
@@ -21,7 +21,7 @@ const calculateSkillPointsAvailable = (currentLevel) => Array.from({ length: cur
         lvl: currentLevel,
         points: levelBase + 1
     }
-}).reduce((s, v) => s + v.points, 0)
+}).reduce((s, v) => s + v.points, 0) + startingSkillPoints
 
 // Event listener for the Level Up button
 function levelUp() {
@@ -40,6 +40,14 @@ function populateCharacterLevelOptions() {
         option.textContent = i;
         selectLevel.appendChild(option);
     }
+    updatePointsAvailable()
+}
+
+function updatePointsAvailable() {
+    document.getElementById('skillPointsAvailable').textContent = calculateSkillPointsAvailable(
+        document.getElementById('characterLevel').value
+    );
+
 }
 
 window.onload = () => {
@@ -82,7 +90,6 @@ function addSkillAndDependencies(skill) {
 }
 
 function refreshBuildListHTML() {
-    // [...document.getElementById("skillsToBuild").children].forEach(e => e.remove())
     let html = ''
     for (const skill of buildSkills) {
         html += buildListItemHTML(skill)
@@ -93,6 +100,7 @@ function refreshBuildListHTML() {
     document.getElementById('characterLevel').value = Math.max(
         parseInt(document.getElementById('characterLevel').value),
         calculateLevelFromSkillPoints(document.getElementById("pointsUsed").innerHTML))
+    updatePointsAvailable()
 }
 
 function buildListItemHTML(skill) {
@@ -137,7 +145,7 @@ function clearSkills() {
 }
 
 const calculateLevelFromSkillPoints = (skillPoints) => {
-    let totalPoints = 0;
+    let totalPoints = startingSkillPoints;
     for (let level = 1; level <= 99; level++) {
         totalPoints += Math.floor(level / 10) + 1;
         if (totalPoints >= skillPoints) {

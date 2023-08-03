@@ -13,8 +13,9 @@ skills:
   - id: SKILL_NW_CursedFocus
     label: Cursed Focus
     skillType: 2
-    x: 326
-    "y": -96
+    x: 561
+    "y": 188
+    isUlt: false
   - id: SKILL_NW_DreadfulShriek
     label: Dreadful Shriek
     skillType: 2
@@ -25,6 +26,7 @@ skills:
     skillType: 2
     x: 954
     "y": -150
+    isUlt: false
   - id: SKILL_NW_FrenziedSavagery
     label: Frenzied Savagery
     skillType: 2
@@ -38,13 +40,15 @@ skills:
   - id: SKILL_NW_LunarPhase
     label: Lunar Phase
     skillType: 2
-    x: 912
-    "y": -368
+    x: 607
+    "y": -378
+    isUlt: false
   - id: SKILL_NW_AbyssalAssault
     label: Abyssal Assault
     skillType: 2
     x: 852
     "y": -466
+    isUlt: false
   - id: SKILL_NW_MidnightInfestation
     label: Midnight Infestation
     skillType: 2
@@ -85,6 +89,7 @@ skills:
     skillType: 2
     x: 641
     "y": -169
+    isUlt: false
   - id: SKILL_NW_SoulrendingWrath
     label: Soulrending Wrath
     skillType: 2
@@ -105,6 +110,7 @@ skills:
     skillType: 2
     x: 769
     "y": 74
+    isUlt: false
   - id: SKILL_NW_TwilightShift
     label: Twilight Shift
     skillType: 2
@@ -115,18 +121,14 @@ skills:
     skillType: 2
     x: 767
     "y": -86
+    isUlt: false
   - id: SKILL_NW_UncontrollableSurge
     label: Uncontrollable Surge
     skillType: 2
     x: 1346
     "y": -569
+    isUlt: false
 dependencies:
-  - from: SKILL_NW_SoulConnection
-    to: SKILL_NW_SoulforgeBlade
-    label: Requires All
-    requiredLevel: 10
-    cost: 55
-    requiresAll: true
   - from: SKILL_NW_RevenantsReprieve
     to: SKILL_NW_SpectralDevourer
     label: Requires All
@@ -152,40 +154,16 @@ dependencies:
     cost: 55
     requiresAll: true
   - from: SKILL_NW_Shadowstep
-    to: SKILL_NW_LunarPhase
-    label: Requires All
-    requiredLevel: 1
-    cost: 30
-    requiresAll: true
-  - from: SKILL_NW_Shadowstep
     to: SKILL_NW_TwilightShift
     label: Requires All
     requiredLevel: 1
     cost: 30
-    requiresAll: true
-  - from: SKILL_NW_CursedFocus
-    to: SKILL_NW_UmbralRift
-    label: Requires All
-    requiredLevel: 5
-    cost: 15
     requiresAll: true
   - from: SKILL_NW_SoulReap
     to: SKILL_NW_RecklessOffense
     label: Requires All
     requiredLevel: 1
     cost: 30
-    requiresAll: true
-  - from: SKILL_NW_Shadowstep
-    to: SKILL_NW_MoonshadowStrike
-    label: Requires All
-    requiredLevel: 1
-    cost: 30
-    requiresAll: true
-  - from: SKILL_NW_SoulforgeBlade
-    to: SKILL_NW_MoonshadowStrike
-    label: Requires All
-    requiredLevel: 5
-    cost: 15
     requiresAll: true
   - from: SKILL_NW_Bloodlust
     to: SKILL_NW_SoulReap
@@ -201,48 +179,6 @@ dependencies:
     requiresAll: true
   - from: SKILL_NW_SoulConnection
     to: SKILL_NW_Shadowstep
-    label: Requires All
-    requiredLevel: 5
-    cost: 15
-    requiresAll: true
-  - from: SKILL_NW_AbyssalAssault
-    to: SKILL_NW_UncontrollableSurge
-    label: Requires All
-    requiredLevel: 10
-    cost: 55
-    requiresAll: true
-  - from: SKILL_NW_FrenziedSavagery
-    to: SKILL_NW_UncontrollableSurge
-    label: Requires All
-    requiredLevel: 5
-    cost: 15
-    requiresAll: true
-  - from: SKILL_NW_RecklessOffense
-    to: SKILL_NW_UncontrollableSurge
-    label: Requires All
-    requiredLevel: 5
-    cost: 15
-    requiresAll: true
-  - from: SKILL_NW_SoulrendingWrath
-    to: SKILL_NW_AbyssalAssault
-    label: Requires All
-    requiredLevel: 5
-    cost: 15
-    requiresAll: true
-  - from: SKILL_NW_ShadowWalker
-    to: SKILL_NW_AbyssalAssault
-    label: Requires All
-    requiredLevel: 1
-    cost: 30
-    requiresAll: true
-  - from: SKILL_NW_UmbralRift
-    to: SKILL_NW_TormentedSouls
-    label: Requires All
-    requiredLevel: 5
-    cost: 15
-    requiresAll: true
-  - from: SKILL_NW_IgnoretheVeil
-    to: SKILL_NW_TormentedSouls
     label: Requires All
     requiredLevel: 5
     cost: 15
@@ -319,3 +255,51 @@ dependencies:
     requiredLevel: 5
     cost: 15
     requiresAll: true
+  - from: SKILL_NW_ShadowWalker
+    to: SKILL_NW_LunarPhase
+    requiredLevel: 1
+    cost: 30
+  - from: SKILL_NW_SoulConnection
+    to: SKILL_NW_SoulforgeBlade
+    requiredLevel: 5
+    cost: 15
+  - from: SKILL_NW_Shadowstep
+    to: SKILL_NW_MoonshadowStrike
+    requiredLevel: 1
+    cost: 30
+  - from: SKILL_NW_SoulrendingWrath
+    to: SKILL_NW_AbyssalAssault
+    requiredLevel: 5
+    cost: 15
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_UmbralRift
+    requiredLevel: 5
+    cost: 15
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_CursedFocus
+    requiredLevel: 5
+    cost: 15
+  - from: SKILL_NW_UmbralRift
+    to: SKILL_NW_TormentedSouls
+    requiredLevel: 5
+    cost: 15
+  - from: SKILL_NW_IgnoretheVeil
+    to: SKILL_NW_TormentedSouls
+    requiredLevel: 10
+    cost: 55
+  - from: SKILL_NW_CursedFocus
+    to: SKILL_NW_TormentedSouls
+    requiredLevel: 5
+    cost: 15
+  - from: SKILL_NW_AbyssalAssault
+    to: SKILL_NW_UncontrollableSurge
+    requiredLevel: 10
+    cost: 55
+  - from: SKILL_NW_FrenziedSavagery
+    to: SKILL_NW_UncontrollableSurge
+    requiredLevel: 5
+    cost: 15
+  - from: SKILL_NW_RecklessOffense
+    to: SKILL_NW_UncontrollableSurge
+    requiredLevel: 5
+    cost: 15
