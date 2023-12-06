@@ -1,0 +1,302 @@
+idPrefix: SKILL_WV_
+skills:
+  - id: SKILL_WV_WyvernsLeap
+    label: Wyvern's Leap
+    skillType: 1
+    active: true
+    description: "Perform a graceful leap and plunge your spear into the enemy, dealing precise physical damage and briefly stunning them. Gain a brief movement speed buff after the attack."
+
+  - id: SKILL_WV_DanceOfBlades
+    label: Dance of Blades
+    skillType: 10
+    active: true
+    description: "Unleash a mesmerizing dance of deadly strikes, attacking multiple foes in quick succession. Each strike deals physical damage and has a chance to weaken their defenses."
+
+  - id: SKILL_WV_ArtfulParry
+    label: Artful Parry
+    skillType: 1
+    passive: true
+    description: "Master the art of parrying, increasing your chance to block and counter enemy attacks. Successfully parrying grants a temporary boost to your attack damage."
+
+  - id: SKILL_WV_SkysplitterThrust
+    label: Skysplitter Thrust
+    skillType: 1
+    active: true
+    description: "Channel your inner wyvern's strength into a powerful overhead thrust, striking down with immense force. Deals heavy physical damage and can break through enemy defenses."
+
+  - id: SKILL_WV_AerialEvasion
+    label: Aerial Evasion
+    skillType: 10
+    active: true
+    description: "Swiftly dodge incoming attacks with elegant aerial movements, making yourself temporarily immune to damage. This skill can also be used to reposition strategically on the battlefield."
+
+  - id: SKILL_WV_UnyieldingSpirit
+    label: Unyielding Spirit
+    skillType: 10
+    passive: true
+    description: "Cultivate an unyielding spirit, granting immunity to crowd control effects and certain status ailments. Additionally, gain a chance to resist debuffs and negative effects."
+
+  - id: SKILL_WV_AgileScout
+    label: Agile Scout
+    skillType: 1
+    passive: true
+    description: "Enhance your scouting abilities, increasing your movement speed and granting vision range on the minimap. Spotting enemies first grants a temporary critical hit chance boost."
+
+  - id: SKILL_WV_DebilitatingStrikes
+    label: Debilitating Strikes
+    skillType: 1
+    active: true
+    description: "Target specific body parts of enemies with precise strikes, causing debilitation effects such as slowing movement, reducing attack power, or disarming opponents temporarily."
+
+  - id: SKILL_WV_FierceMomentum
+    label: Fierce Momentum
+    skillType: 10
+    passive: true
+    description: "As you land successful attacks, gain momentum and increased attack speed, making your strikes faster and more relentless."
+
+  - id: SKILL_WV_ValiantPresence
+    label: Valiant Presence
+    skillType: 10
+    passive: true
+    description: "Radiate a commanding presence on the battlefield, inspiring allies and boosting their morale. Allied units within range receive increased attack and defense stats."
+
+  - id: SKILL_WV_PhantomDash
+    label: Phantom Dash
+    skillType: 1
+    active: true
+    description: "Move swiftly across the battlefield with a series of elusive dashes, avoiding enemy attacks and positioning yourself strategically behind foes."
+
+  - id: SKILL_WV_WyvernsGaze
+    label: Wyvern's Gaze
+    skillType: 10
+    active: true
+    description: "Focus your senses like a vigilant wyvern, scouting enemies from afar and revealing their weaknesses, lowering their defenses for a short duration."
+
+  - id: SKILL_WV_InspiringEncore
+    label: Inspiring Encore
+    skillType: 1
+    active: true
+    description: "Perform a captivating battle display, boosting the morale of your allies and cleansing them from harmful effects. It also grants a temporary increase in their damage output."
+
+  - id: SKILL_WV_ThunderingSkies
+    label: Thundering Skies
+    skillType: 10
+    active: true
+    description: "Call upon the power of the wyverns, summoning lightning to strike down on your enemies, dealing both physical and magical damage with a chance to stun."
+
+  - id: SKILL_WV_ResilientWill
+    label: Resilient Will
+    skillType: 10
+    passive: true
+    description: "Develop an iron will that grants resistance to mental debuffs and fear effects. The chance to break free from control and debuffs increases over time."
+
+  - id: SKILL_WV_ShadowsFeint
+    label: Shadow's Feint
+    skillType: 1
+    active: true
+    description: "Utilize quick and precise feints to confuse enemies, reducing their accuracy and evasion for a short duration."
+
+  - id: SKILL_WV_SwiftReconnaissance
+    label: Swift Reconnaissance
+    skillType: 10
+    passive: true
+    description: "Enhance your scouting abilities further, increasing your movement speed and granting vision range on the minimap for a larger area."
+
+  - id: SKILL_WV_PhoenixDive
+    label: Phoenix Dive
+    skillType: 1
+    active: true
+    description: "Leap into the heart of battle with a soaring attack, causing a powerful explosion upon impact that damages and disorients enemies."
+
+  - id: SKILL_WV_ShieldingStance
+    label: Shielding Stance
+    skillType: 1
+    active: true
+    description: "Assume a defensive stance with your spear, mitigating incoming damage and temporarily becoming immune to critical hits."
+
+  - id: SKILL_WV_GracefulRetreat
+    label: Graceful Retreat
+    skillType: 10
+    active: true
+    description: "Execute a swift and graceful retreat, disengaging from combat and gaining a temporary boost to your movement speed."
+
+  - id: SKILL_WV_BlindingFlourish
+    label: Blinding Flourish
+    skillType: 1
+    active: true
+    description: "Dazzle enemies with an enchanting flourish, blinding them momentarily and decreasing their accuracy."
+
+  - id: SKILL_WV_DaringDiversion
+    label: Daring Diversion
+    skillType: 1
+    active: true
+    description: "Distract and lure enemies away from your allies, creating an opening for strategic maneuvers."
+
+  - id: SKILL_WV_WyvernsSerenade
+    label: Wyvern's Serenade
+    skillType: 10
+    active: true
+    description: "Perform a mesmerizing serenade that charms and disarms enemies within range, rendering them unable to attack for a short duration."
+
+  - id: SKILL_WV_CelestialWaltz
+    label: Celestial Waltz
+    skillType: 10
+    active: true
+    description: "Embark on a celestial dance, summoning energy from the heavens to surround and protect you. While dancing, you become invulnerable to damage for a short duration and reflect a portion of the damage back to attackers."
+
+  - id: SKILL_WV_PiercingInsight
+    label: Piercing Insight
+    skillType: 1
+    active: true
+    description: "Focus your senses to anticipate enemy movements and weaknesses. Your next attack ignores a portion of the enemy's defense, dealing increased damage and piercing through their armor."
+
+  - id: SKILL_WV_HarmonysResonance
+    label: Harmony's Resonance
+    skillType: 1
+    passive: true
+    description: "Attune your movements to the rhythm of battle, gaining a slight increase in attack speed and damage after successfully chaining attacks in a specific sequence."
+
+  - id: SKILL_WV_SovereignStrike
+    label: Sovereign Strike
+    skillType: 1
+    active: true
+    description: "Channel the essence of your royal bloodline into your spear, unleashing a devastating strike that temporarily grants you an aura of power, increasing your damage output and imposing fear in enemies."
+
+  - id: SKILL_WV_EtherealVanish
+    label: Ethereal Vanish
+    skillType: 10
+    active: true
+    description: "Dissolve into the ethereal realm, becoming invisible and intangible for a short duration. While in this state, you can move freely across obstacles and terrains, gaining a strategic advantage to reposition or evade attacks."
+
+  - id: SKILL_WV_WyvernsCrescendo
+    label: Wyvernheart's Crescendo
+    skillType: 10
+    active: true
+    description: "Reach the pinnacle of your artistry, performing a crescendo of attacks with unmatched precision and power. During this awe-inspiring display, your attack and movement speed are dramatically increased, and all successful hits have a chance to unleash a chain of additional strikes."
+
+  - id: SKILL_WV_DragonsEmbrace
+    label: Dragon's Embrace
+    skillType: 10
+    passive: true
+    description: "Forge a bond with the wyverns that grants you additional resistance to elemental damage and further enhances your connection with the spirit of the wyvern, slightly increasing the chance of landing critical hits."
+
+dependencies:
+  - from: SKILL_WV_WyvernsLeap
+    to: SKILL_WV_DanceOfBlades
+    requiredLevel: 10
+
+  - from: SKILL_WV_WyvernsLeap
+    to: SKILL_WV_ArtfulParry
+    requiredLevel: 5
+
+  - from: SKILL_WV_WyvernsLeap
+    to: SKILL_WV_SkysplitterThrust
+    requiredLevel: 10
+
+  - from: SKILL_WV_DanceOfBlades
+    to: SKILL_WV_AerialEvasion
+    requiredLevel: 10
+
+  - from: SKILL_WV_DanceOfBlades
+    to: SKILL_WV_FierceMomentum
+    requiredLevel: 10
+
+  - from: SKILL_WV_ArtfulParry
+    to: SKILL_WV_BlindingFlourish
+    requiredLevel: 10
+
+  - from: SKILL_WV_ArtfulParry
+    to: SKILL_WV_ResilientWill
+    requiredLevel: 10
+
+  - from: SKILL_WV_SkysplitterThrust
+    to: SKILL_WV_AerialEvasion
+    requiredLevel: 5
+
+  - from: SKILL_WV_AerialEvasion
+    to: SKILL_WV_BlindingFlourish
+    requiredLevel: 10
+
+  - from: SKILL_WV_UnyieldingSpirit
+    to: SKILL_WV_ThunderingSkies
+    requiredLevel: 10
+
+  - from: SKILL_WV_UnyieldingSpirit
+    to: SKILL_WV_ResilientWill
+    requiredLevel: 10
+
+  - from: SKILL_WV_AgileScout
+    to: SKILL_WV_DebilitatingStrikes
+    requiredLevel: 5
+
+  - from: SKILL_WV_AgileScout
+    to: SKILL_WV_SwiftReconnaissance
+    requiredLevel: 10
+
+  - from: SKILL_WV_DebilitatingStrikes
+    to: SKILL_WV_PhoenixDive
+    requiredLevel: 10
+
+  - from: SKILL_WV_FierceMomentum
+    to: SKILL_WV_ValiantPresence
+    requiredLevel: 10
+
+  - from: SKILL_WV_PhoenixDive
+    to: SKILL_WV_GracefulRetreat
+    requiredLevel: 10
+
+  - from: SKILL_WV_ValiantPresence
+    to: SKILL_WV_InspiringEncore
+    requiredLevel: 10
+
+  - from: SKILL_WV_GracefulRetreat
+    to: SKILL_WV_ShieldingStance
+    requiredLevel: 5
+
+  - from: SKILL_WV_BlindingFlourish
+    to: SKILL_WV_DaringDiversion
+    requiredLevel: 10
+
+  - from: SKILL_WV_SwiftReconnaissance
+    to: SKILL_WV_DaringDiversion
+    requiredLevel: 10
+
+  - from: SKILL_WV_DaringDiversion
+    to: SKILL_WV_WyvernsSerenade
+    requiredLevel: 10
+
+  - from: SKILL_WV_ThunderingSkies
+    to: SKILL_WV_CelestialWaltz
+    requiredLevel: 10
+
+  - from: SKILL_WV_WyvernsSerenade
+    to: SKILL_WV_CelestialWaltz
+    requiredLevel: 10
+
+  - from: SKILL_WV_DanceOfBlades
+    to: SKILL_WV_SovereignStrike
+    requiredLevel: 10
+
+  - from: SKILL_WV_DanceOfBlades
+    to: SKILL_WV_EtherealVanish
+    requiredLevel: 10
+
+  - from: SKILL_WV_EtherealVanish
+    to: SKILL_WV_WyvernsCrescendo
+    requiredLevel: 10
+
+  - from: SKILL_WV_WyvernsCrescendo
+    to: SKILL_WV_DragonsEmbrace
+    requiredLevel: 10
+
+  - from: SKILL_WV_WyvernsCrescendo
+    to: SKILL_WV_DragonsEmbrace
+    requiredLevel: 5
+
+  - from: SKILL_WV_WyvernsCrescendo
+    to: SKILL_WV_ShadowDance
+    requiredLevel: 10
+
+  - from: SKILL_WV_WyvernsCrescendo
+    to: SKILL_WV_ElusiveStride
+    requiredLevel: 10

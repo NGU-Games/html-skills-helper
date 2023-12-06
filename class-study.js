@@ -18,8 +18,8 @@ const calculateAccumulatedSkillPointCost = (skillLevel) => Array.from({ length: 
 }).reduce((s, v) => s + v, 0)
 
 const baseClass = {
-    name: "Abyssal Stormguard",
-    id: "xxxxx",
+    name: "Night Weaver",
+    id: "CHC_NIW",
     type: "MAIN",
     equipGroupsIds: [], // list of equip items groups that this class can equip. 
     primaryStatsBonus: { // sum of 30
